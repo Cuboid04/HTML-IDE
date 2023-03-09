@@ -3,6 +3,7 @@ from PIL import ImageTk, Image
 from tkinter import messagebox
 import os
 from tkinter import filedialog
+import webbrowser
 root=Tk()
 root.title("HTML IDE")
 root.minsize(650,650)
@@ -37,14 +38,28 @@ def openfile():
     text_area.insert(END, file)
     open_file.close()
 
+def savefile():
+    input_name=file_name_input.get()
+    opened_file=open(input_name+ ".html", 'w')
+    data=text_area.get(1.0, END)
+    print(data)
+    opened_file.write(data)
+    text_area.delete(1.0, END)
+    file_name_input.delete(0, END)
+    messagebox.showinfo("Update", "Success")
+    root.title("HTML IDE")
+
+def runfile():
+    global name
+    webbrowser.open(name)
 
 open_btn=Button(root, image=open_img, text="Open", command=openfile)
 open_btn.place(relx=0.05, rely=0.03, anchor=CENTER)
 
-save_btn=Button(root, image=save_img, text="Run")
+save_btn=Button(root, image=save_img, text="Save", command=savefile)
 save_btn.place(relx=0.11, rely=0.03, anchor=CENTER)
 
-run_btn=Button(root, image=run_img, text="run")
+run_btn=Button(root, image=run_img, text="run", command=runfile)
 run_btn.place(relx=0.17, rely=0.03, anchor=CENTER)
 
 root.mainloop()
